@@ -111,5 +111,26 @@ function generate_tick_bars(
     resize!(tickbars, bar_counter - 1)
 end
 
-
+function generate_currency_bars(
+    ticks::Vector{TimeTick},
+    target_volume::Union{Float64, Int64}
+)::Vector{VolumeBar}
+    volbars = similar(ticks, CurrencyBar)
+    accumulated_currency::Float64 = 0.0;
+    last_idx = 1;
+    bar_counter = 1;
+    for (idx, tk) in enumerate(ticks)
+        accumulated_currency += price(tk)
+        if accumulated_volume >= target_volume
+            open, close = price(ticks[last_idx]), price(ticks[idx])
+            high, low = extrema(price, ticks[last_idx:idx])
+            ts = timestamp(ticks[idx])
+            volbars[bar_counter] = VolumeBar(ts, OHLC(open, high, low, close))
+            accumulated_currency = 0.0
+            last_idx =  idx + 1
+            bar_counter += 1
+        end
+    end
+    resize!(volbars, bar_counter - 1)
+end
 
