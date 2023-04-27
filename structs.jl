@@ -113,7 +113,7 @@ end
 
 function generate_currency_bars(
     ticks::Vector{TimeTick},
-    target_volume::Union{Float64, Int64}
+    target_value::Union{Float64, Int64}
 )::Vector{VolumeBar}
     volbars = similar(ticks, CurrencyBar)
     accumulated_currency::Float64 = 0.0;
@@ -121,7 +121,7 @@ function generate_currency_bars(
     bar_counter = 1;
     for (idx, tk) in enumerate(ticks)
         accumulated_currency += price(tk)
-        if accumulated_volume >= target_volume
+        if accumulated_volume >= target_value
             open, close = price(ticks[last_idx]), price(ticks[idx])
             high, low = extrema(price, ticks[last_idx:idx])
             ts = timestamp(ticks[idx])
