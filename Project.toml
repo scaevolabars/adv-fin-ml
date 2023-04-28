@@ -1,0 +1,4 @@
+name = "FinancialML"
+uuid = "05d2b8b6-8b23-4571-986c-c16463d1cef2"
+authors = ["Sergey Bars <ssbars137@gmail.com>"]
+version = "0.1.0"
